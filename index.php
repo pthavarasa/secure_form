@@ -1,10 +1,45 @@
-<?php 
-  if(isset($_POST["create"])){
-    echo "redirect to create account";
-  }else if(isset($_POST["sign_in"]) && isset($_POST["email"]) && isset($_POST["password"])){
-    echo "handle validation";
-  }else{
-    echo "handle invalid input!";
+<?php
+
+  if(isset($_POST['create'])){
+    echo 'redirect to create account';
+  }else if(isset($_POST['sign_in'])){
+    // check if data and not empty
+    if (!isset($_POST['email']) || empty($_POST['email'])) $email_error = 'Invalide email!';
+    if (!isset($_POST['password']) || empty($_POST['password'])) $password_error = 'Invalide password!';
+
+    // sanitizing unsafe value
+    $email = htmlspecialchars(stripslashes(trim($_POST['email'])));
+    $password = htmlspecialchars(stripslashes(trim($_POST['password'])));
+
+    // validation
+    $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
+    $password_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
+    if(!preg_match($email_pattern, $email)) $email_error = 'Invalide email!';
+    if(!preg_match($password_pattern, $password)) $password_error = 'Invalide password!';
+
+    if(!isset($email_error) && !isset($password_error)){
+      // database connection
+      $con = mysqli_connect('localhost', 'root', '', 'secure_form');
+      if (mysqli_connect_errno()) {
+        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+      }
+      // check info
+      if ($stmt = $con->prepare('SELECT user_email, user_password FROM credential WHERE user_email = ?')) {
+        $stmt->bind_param('s', $email);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        if(isset($result['user_email']) && $result['user_email'] === $email){
+          echo "ok";
+        }else
+          $credential_error = "email or password wrong!";
+      }else{
+        // table not exist in database
+        $database_error = "internal error contact admin";
+      }
+    }else{
+      echo $email_error;
+      echo $password_error;
+    }
   }
 
 ?>
