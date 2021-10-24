@@ -22,7 +22,7 @@ Create table
 ```sql
 CREATE TABLE credential(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_email VARCHAR(20) NOT NULL,
+    user_email VARCHAR(100) NOT NULL,
     user_password VARCHAR(255) NOT NULL,
     creation timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     modification timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
