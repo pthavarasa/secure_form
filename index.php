@@ -11,8 +11,9 @@
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <title>Secure Login Form</title>
     <style>
       h1, form {
         text-align: center;

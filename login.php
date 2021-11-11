@@ -4,13 +4,19 @@
     header('Location: index.php');
     exit;
   }
-  if(isset($_SESSION['token'])) $prev_token = $_SESSION['token'];
+  if(isset($_SESSION['token'])) {
+    $prev_token = $_SESSION['token'];
+  }
   $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
 
   if(isset($_POST['sign_in']) && isset($_POST['token']) && hash_equals($prev_token, $_POST['token'])){
     // check if data and not empty
-    if (!isset($_POST['email']) || empty($_POST['email'])) $email_error = '- Invalide email!<br>';
-    if (!isset($_POST['password']) || empty($_POST['password'])) $password_error = '- Invalide password!<br>';
+    if (!isset($_POST['email']) || empty($_POST['email'])) {
+      $email_error = '- Invalide email!<br>';
+    }
+    if (!isset($_POST['password']) || empty($_POST['password'])) {
+      $password_error = '- Invalide password!<br>'
+    };
 
     // sanitizing unsafe value
     $email = htmlspecialchars(stripslashes(trim($_POST['email'])), ENT_QUOTES, 'UTF-8');
@@ -19,8 +25,12 @@
     // validation
     $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
     $password_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
-    if(!preg_match($email_pattern, $email)) $email_error = '- Invalide email!<br>';
-    if(!preg_match($password_pattern, $password)) $password_error = '- Invalide password, Require mixed password!<br>';
+    if(!preg_match($email_pattern, $email)) {
+      $email_error = '- Invalide email!<br>';
+    }
+    if(!preg_match($password_pattern, $password)) {
+      $password_error = '- Invalide password, Require mixed password!<br>';
+    }
 
     if(!isset($email_error) && !isset($password_error)){
       // database connection
@@ -75,10 +85,10 @@
         <h1 class="h3">Login</h1>
         <?php if (isset($email_error) || isset($password_error) || isset($database_error) || isset($credential_error)): ?>
         <div class="alert alert-danger" role="alert">
-          <?php if(isset($email_error)) echo $email_error; ?>
-          <?php if(isset($password_error)) echo $password_error; ?>
-          <?php if(isset($database_error)) echo $database_error; ?>
-          <?php if(isset($credential_error)) echo $credential_error; ?>
+          <?php if(isset($email_error)) {echo $email_error;} ?>
+          <?php if(isset($password_error)) {echo $password_error;} ?>
+          <?php if(isset($database_error)) {echo $database_error;} ?>
+          <?php if(isset($credential_error)) {echo $credential_error;} ?>
         </div>
         <?php endif ?>
         <div class="form-floating">
