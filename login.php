@@ -15,8 +15,8 @@
       $email_error = '- 1.Invalide email!<br>';
     }
     if (!isset($_POST['password']) || empty($_POST['password'])) {
-      $password_error = '- 2.Invalide password!<br>'
-    };
+      $password_error = '- 2.Invalide password!<br>';
+    }
 
     // sanitizing unsafe value
     $email = htmlspecialchars(stripslashes(trim($_POST['email'])), ENT_QUOTES, 'UTF-8');
