@@ -15,10 +15,10 @@
       $email_error = 'Invalide email!<br>';
     }
     if (!isset($_POST['password']) || empty($_POST['password'])) {
-      $password_error = 'Invalide password!<br>';
+      $password_error = '4.Invalide password!<br>';
     }
     if (!isset($_POST['repeat_password']) || empty($_POST['repeat_password'])) {
-      $password_error = 'Invalide password!<br>';
+      $password_error = '5.Invalide password!<br>';
     }
     // sanitizing unsafe value
     $email = htmlspecialchars(stripslashes(trim($_POST['email'])), ENT_QUOTES, 'UTF-8');
@@ -29,17 +29,17 @@
     $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
     $password_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
     if(!preg_match($email_pattern, $email)) {
-      $email_error = 'Invalide email!<br>';
+      $email_error = '1.Invalide email!<br>';
     }
     if(!preg_match($password_pattern, $password)) {
-      $password_error = 'Invalide password!<br>';
+      $password_error = '2.Invalide password!<br>';
     }
     if(!preg_match($password_pattern, $repeat_password)) {
-      $password_error = 'Invalide password!<br>';
+      $password_error = '3.Invalide password!<br>';
     }
 
     // check if password is equal
-    if(!($password === $repeat_password)){
+    if($password !== $repeat_password){
       $password_match = 'Password not match!';
     }
 
@@ -66,10 +66,10 @@
           $stmt->execute();
           $succ = "account created.";
         }else
-          $credential_error = "email is already exist!<br>";
+          {$credential_error = "email is already exist!<br>";}
       }else{
         // table not exist in database
-        $database_error = "internal error contact admin<br>";
+        {$database_error = "internal error contact admin<br>";}
       }
     }
   }
