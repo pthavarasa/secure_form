@@ -55,7 +55,6 @@
         $result = $stmt->get_result()->fetch_assoc();
         if(isset($result['user_email']) && $result['user_email'] === $email){
           if(isset($result['user_password']) && password_verify($password, $result['user_password'])){
-            session_regenerate_id();
             $_SESSION['verified'] = TRUE;
             $_SESSION['email'] = $email;
             header('Location: index.php');
