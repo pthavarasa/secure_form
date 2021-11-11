@@ -30,9 +30,12 @@
 
     if(!isset($email_error) && !isset($password_error) && !isset($password_match)){
       // database connection
-      $con = mysqli_connect('localhost', 'root', '', 'secure_form');
+      $con = mysqli_connect('localhost', 'root', 'kjlJHKù!^^-*/565jg§jfgjf&', 'secure_form');
       if (mysqli_connect_errno()) {
-        exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+        // It is recommended to avoid displaying error messages directly to the browser.
+        //exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+        echo "Failed to connect to MySQL";
+        exit();
       }
       // check if email exist
       if ($stmt = $con->prepare('SELECT user_email, user_password FROM credential WHERE user_email = ?')) {
