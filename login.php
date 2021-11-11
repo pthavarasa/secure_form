@@ -12,10 +12,10 @@
   if(isset($_POST['sign_in']) && isset($_POST['token']) && hash_equals($prev_token, $_POST['token'])){
     // check if data and not empty
     if (!isset($_POST['email']) || empty($_POST['email'])) {
-      $email_error = '- Invalide email!<br>';
+      $email_error = '- 1.Invalide email!<br>';
     }
     if (!isset($_POST['password']) || empty($_POST['password'])) {
-      $password_error = '- Invalide password!<br>'
+      $password_error = '- 2.Invalide password!<br>'
     };
 
     // sanitizing unsafe value
@@ -26,7 +26,7 @@
     $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
     $password_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
     if(!preg_match($email_pattern, $email)) {
-      $email_error = '- Invalide email!<br>';
+      $email_error = '- 3.Invalide email!<br>';
     }
     if(!preg_match($password_pattern, $password)) {
       $password_error = '- Invalide password, Require mixed password!<br>';
@@ -34,7 +34,7 @@
 
     if(!isset($email_error) && !isset($password_error)){
       // database connection
-      $con = mysqli_connect('localhost', 'root', 'kjlJHKù!^^-*/565jg§jfgjf&', 'secure_form');
+      $con = mysqli_connect('localhost', $_SERVER['MYSQL_USER'], $_SERVER['MYSQL_PASSWORD'], $_SERVER['MYSQL_DB_NAME']);
       if (mysqli_connect_errno()) {
         // It is recommended to avoid displaying error messages directly to the browser.
         //exit('Failed to connect to MySQL: ' . mysqli_connect_error());
@@ -53,8 +53,8 @@
             $_SESSION['email'] = $email;
             header('Location: index.php');
             exit;
-          }else $credential_error = "- Email or password wrong!<br>";
-        }else $credential_error = "- Email or password wrong!<br>";
+          }else {$credential_error = "- 1.Email or password wrong!<br>";}
+        }else {$credential_error = "- 2.Email or password wrong!<br>";}
       }else{
         // table not exist in database
         $database_error = "- Internal error contact admin!<br>";

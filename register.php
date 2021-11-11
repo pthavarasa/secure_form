@@ -45,7 +45,7 @@
 
     if(!isset($email_error) && !isset($password_error) && !isset($password_match)){
       // database connection
-      $con = mysqli_connect('localhost', 'root', 'kjlJHKù!^^-*/565jg§jfgjf&', 'secure_form');
+      $con = mysqli_connect('localhost', $_SERVER['MYSQL_USER'], $_SERVER['MYSQL_PASSWORD'], $_SERVER['MYSQL_DB_NAME']);
       if (mysqli_connect_errno()) {
         // It is recommended to avoid displaying error messages directly to the browser.
         //exit('Failed to connect to MySQL: ' . mysqli_connect_error());
