@@ -7,7 +7,14 @@
   if(isset($_SESSION['token'])) {
     $prev_token = $_SESSION['token'];
   }
-  $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
+  try{
+    $randID = bin2hex(random_bytes(32));
+  }catch{
+    echo "error!";
+    exit();
+  }
+  $id = $randID;
+  $_SESSION['token'] = $randID;
 
   if(isset($_POST['sign_in']) && isset($_POST['token']) && hash_equals($prev_token, $_POST['token'])){
     // check if data and not empty
@@ -24,11 +31,11 @@
 
     // validation
     $email_pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/';
-    $password_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
+    $a_pattern = '/(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/';
     if(!preg_match($email_pattern, $email)) {
       $email_error = '- 3.Invalide email!<br>';
     }
-    if(!preg_match($password_pattern, $password)) {
+    if(!preg_match($a_pattern, $password)) {
       $password_error = '- Invalide password, Require mixed password!<br>';
     }
 
@@ -99,7 +106,7 @@
           <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Password</label>
         </div>
-        <input type="hidden" name="token" value="<?php echo $_SESSION['token']; ?>" />
+        <input type="hidden" name="token" value="<?php echo $id; ?>" />
 
         <button class="w-30 btn btn-lg btn-primary" type="reset">Reset</button>
         <button class="w-40 btn btn-lg btn-primary" name="sign_in" type="submit">Sign in</button>
